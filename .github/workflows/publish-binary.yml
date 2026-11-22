@@ -22,10 +22,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Always the latest stable Go release, so that every published binary carries the
+      # standard library security fixes released so far. go.mod only sets the minimum.
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version-file: go.mod
+          go-version: stable
+          check-latest: true
 
       # The minified assets and the WebAssembly module are not stored in the repository,
       # so they have to be generated before the server can be built.
