@@ -1,0 +1,25 @@
+# Opens pull requests when a dependency has a new release, so that security fixes in
+# the libraries Gokapi uses do not go unnoticed. The version of Go itself is not
+# handled here: the binary workflow always builds with the latest stable release.
+version: 2
+updates:
+  # Go modules from go.mod, grouped into a single weekly pull request.
+  # build/go.mod is left out, as go generate copies it from go.mod.
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      go-dependencies:
+        patterns:
+          - "*"
+
+  # Actions used by the workflows, grouped into a single monthly pull request.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
